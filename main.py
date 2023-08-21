@@ -1,5 +1,6 @@
 import numpy as np
 from PIL import Image
+import os
 
 
 class Rectangle:
@@ -120,6 +121,7 @@ class Canvas:
         Args:
             imagepath (str): The path where the image will be saved.
         """
+        os.chdir("files")
         img = Image.fromarray(self.data, "RGB")
         img.save(imagepath)
 
