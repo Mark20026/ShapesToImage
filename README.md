@@ -8,7 +8,7 @@ This is a simple Python script that allows you to draw squares and rectangles on
 
 ## Usage
 
-1. Run the `draw_shapes.py` script using your Python interpreter.
+1. Run the `main.py` script using your Python interpreter.
 2. You will be prompted to enter the canvas dimensions and color (black or white).
 3. Follow the prompts to draw squares and rectangles on the canvas. You can specify the position, dimensions, and color of the shapes.
 4. Enter "quit" when you're done drawing to save the canvas as an image file named "canvas.png".
