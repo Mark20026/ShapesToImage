@@ -1,80 +1,104 @@
 from canvas import Canvas
 from shapes import Rectangle, Square
-import re
 
 
-def wrong_input():
-    return "Wrong input"
+class UserInputHandler:
+    @staticmethod
+    def validate_color_value(value):
+        return 0 <= value <= 255
+
+    @staticmethod
+    def get_integer_input(prompt):
+        while True:
+            try:
+                value = int(input(prompt))
+                return value
+            except ValueError:
+                print("Invalid input. Please enter a valid number.")
+
+    @staticmethod
+    def get_color_input(prompt):
+        while True:
+            color = input(prompt).strip().lower()
+            if color in ("black", "white"):
+                return color
+            else:
+                print("Invalid input. Please enter 'black' or 'white'.")
+
+    @staticmethod
+    def get_draw_input(prompt):
+        while True:
+            drawing = input(prompt).strip().lower()
+            if drawing in ("rectangle", "square", "quit"):
+                return drawing
+            else:
+                print("Invalid input. Please enter 'rectangle' or 'square' or 'quit'.")
 
 
-# Creating patterns for the canvas
-canvas_width_pattern = re.compile(r'^\d{3,4}$')
-canvas_height_pattern = re.compile(r'^\d{3,4}$')
-canvas_color_pattern = re.compile(r'^black|white$', re.IGNORECASE)
+user_input_handler = UserInputHandler()
 
 # Get canvas dimensions and color from user input
-while True:
-    canvas_width = input("Canvas width: ")
-    if canvas_width_pattern.match(canvas_width):
-        break
-    else:
-        print("Give a number which has 3 or 4 numbers in it!")
-
-
-while True:
-    canvas_height = input("Canvas height: ")
-    if canvas_height_pattern.match(canvas_height):
-        break
-    else:
-        print("Give a number which has 3 or 4 numbers in it!")
-
-while True:
-    canvas_color = input("What color should be the canvas? (black or white)?: ")
-    if canvas_color_pattern.match(canvas_color):
-        break
-    else:
-        print("The input should be 'black' or 'white'!")
+canvas_width = user_input_handler.get_integer_input("Canvas width: ")
+canvas_height = user_input_handler.get_integer_input("Canvas height: ")
+canvas_color = user_input_handler.get_color_input("What color should be the canvas? (black or white)?: ")
 
 # Determine canvas color based on user input
 if canvas_color == "white":
-    color = (255,255,255)
+    color = (255, 255, 255)
 elif canvas_color == "black":
-    color = (0,0,0)
+    color = (0, 0, 0)
 
 # Create a canvas object with the specified dimensions and color
 canvas = Canvas(int(canvas_width), int(canvas_height), color=color)
 
-# Creating pattern for the drawing
-draw_pattern = re.compile(r'^square|rectangle|quit$', re.IGNORECASE)
-
 # Loop to allow drawing shapes on the canvas
 while True:
-    while True:
-        user_draw = input("What do you want to draw (square or rectangle)? If you want to quit enter quit : ")
-        if draw_pattern.match(user_draw):
-            break
-        else:
-            print("The input should be 'rectangle' or 'square'!")
+    user_draw = user_input_handler.get_draw_input("What do you want to draw (square or rectangle)?"
+                                                  "If you want to quit enter quit : ")
 
     if user_draw == "square":
-        square_x = int(input("x coordinate: "))
-        square_y = int(input("y coordinate: "))
-        square_side = int(input("Side length: "))
-        square_red = int(input("How many red should be in it?: (0-255)"))
-        square_green = int(input("How many green should be in it?: (0-255)"))
-        square_blue = int(input("How many blue should be in it?: (0-255)"))
+        square_x = user_input_handler.get_integer_input("x coordinate: ")
+        square_y = user_input_handler.get_integer_input("y coordinate: ")
+        square_side = user_input_handler.get_integer_input("Side length: ")
+
+        square_red = user_input_handler.get_integer_input("How much red should be in it?: (0-255)")
+        while not user_input_handler.validate_color_value(square_red):
+            print("Red value should be between 0 and 255.")
+            square_red = user_input_handler.get_integer_input("How much red should be in it?: (0-255)")
+
+        square_green = user_input_handler.get_integer_input("How much green should be in it?: (0-255)")
+        while not user_input_handler.validate_color_value(square_green):
+            print("Green value should be between 0 and 255.")
+            square_green = user_input_handler.get_integer_input("How much green should be in it?: (0-255)")
+
+        square_blue = user_input_handler.get_integer_input("How much blue should be in it?: (0-255)")
+        while not user_input_handler.validate_color_value(square_blue):
+            print("Blue value should be between 0 and 255.")
+            square_blue = user_input_handler.get_integer_input("How much blue should be in it?: (0-255)")
 
         square = Square(square_x, square_y, square_side, color=(square_red, square_green, square_blue))
         square.draw(canvas)
 
     elif user_draw == "rectangle":
-        rectangle_x = int(input("x coordinate: "))
-        rectangle_y = int(input("y coordinate: "))
-        rectangle_width = int(input("Width: "))
-        rectangle_height = int(input("Height: "))
-        rectangle_red = int(input("How many red should be in it?: (0-255)"))
-        rectangle_green = int(input("How many green should be in it?: (0-255)"))
-        rectangle_blue = int(input("How many blue should be in it?: (0-255)"))
+        rectangle_x = user_input_handler.get_integer_input("x coordinate: ")
+        rectangle_y = user_input_handler.get_integer_input("y coordinate: ")
+        rectangle_width = user_input_handler.get_integer_input("Width: ")
+        rectangle_height = user_input_handler.get_integer_input("Height: ")
+
+        rectangle_red = user_input_handler.get_integer_input("How much red should be in it?: (0-255)")
+        while not user_input_handler.validate_color_value(rectangle_red):
+            print("Red value should be between 0 and 255.")
+            square_red = user_input_handler.get_integer_input("How much red should be in it?: (0-255)")
+
+        rectangle_green = user_input_handler.get_integer_input("How much green should be in it?: (0-255)")
+        while not user_input_handler.validate_color_value(rectangle_green):
+            print("Green value should be between 0 and 255.")
+            square_green = user_input_handler.get_integer_input("How much green should be in it?: (0-255)")
+
+        rectangle_blue = user_input_handler.get_integer_input("How much blue should be in it?: (0-255)")
+        while not user_input_handler.validate_color_value(rectangle_blue):
+            print("Blue value should be between 0 and 255.")
+            square_blue = user_input_handler.get_integer_input("How much blue should be in it?: (0-255)")
 
         rectangle = Rectangle(rectangle_x, rectangle_y, rectangle_height, rectangle_width, color=(rectangle_red,
                                                                                                   rectangle_green,
